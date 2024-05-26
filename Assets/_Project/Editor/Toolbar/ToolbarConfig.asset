@@ -17,6 +17,7 @@ MonoBehaviour:
   - rid: 9156771926589571073
   _rightToolbarObjects:
   - rid: 9156771926879240193
+  - rid: 9156771926879240194
   _toolbarIcons:
     GitIcon: {fileID: 2800000, guid: d0f43f5b5edb2b5429b136b9f97b2e48, type: 3}
   references:
@@ -33,4 +34,7 @@ MonoBehaviour:
     - rid: 9156771926879240193
       type: {class: GoToMainMenuSceneToolbarObject, ns: _Project.Scripts.Editor.Toolbar.Objects,
         asm: Pyros.Editor}
+      data: 
+    - rid: 9156771926879240194
+      type: {class: SearchLevelToolbarObject, ns: Pyros.Editor.Toolbar.Objects, asm: Pyros.Editor}
       data: 
