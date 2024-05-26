@@ -19,16 +19,16 @@ These instructions will help you set up the project locally on your machine for 
 
 ### Prerequisites
 
-- [Unity](https://unity.com/) (version 2022.3.31f1 LTS or later)
+- [Unity](https://unity.com/) (version 2022.3.31f1 LTS)
 - [Git](https://git-scm.com/)
-- Basic knowledge of C# and game development principles
+- Ready to have a blast making games
 
 ## Installation
 
 1. **Clone the repository:**
 
     ```sh
-    git clone https://github.com/yourusername/just-another-prototyping-repository.git
+    git clone https://github.com/yourusername/prototype.git
     cd just-another-prototyping-repository
     ```
 
@@ -44,4 +44,4 @@ Once the project is open in Unity, you can playtest the prototypes directly from
 
 ---
 
-Happy prototyping! If you have any questions or need further assistance, feel free to open an issue or contact the repository maintainers.
+Happy prototyping!
