@@ -80,3 +80,4 @@ Assets/Plugins/Sirenix/Odin Inspector/Config/Editor/TypeRegistryUserConfig.asset
 # Development Ignores
 /[Aa]ssets/_private/
 /[Aa]ssets/_private.meta
+.vsconfig
