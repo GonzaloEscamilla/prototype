@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aba32856871413ea07b3e37d3976157, type: 3}
+  m_Name: CharacterSettings
+  m_EditorClassIdentifier: 
+  rotationFactorPerFrame: 1500
+  speed: 5
+  runMultiplier: 1.6
+  runEnergyCost: 1
+  usesDashPoints: 0
+  dashPoints: 0
+  dashEnergyCost: 1
+  dashDuration: 0.15
+  dashSpeed: 22
+  dashDistance: 3.3000002
+  dashCooldown: 0.5
+  bufferedDashPercentage: 0.7
+  dashInvulnerabilityRange: {x: 0, y: 1}
+  interactionLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
