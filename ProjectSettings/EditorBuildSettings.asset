@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Project/Scenes/OtherScene.unity
     guid: eff5d31cc9ad8ec48a7531544302dd06
+  - enabled: 1
+    path: Assets/_Project/Scenes/IsometricTopDownTest.unity
+    guid: 7060b035e727f2a4e8511324ece7f7ea
   m_configObjects: {}
