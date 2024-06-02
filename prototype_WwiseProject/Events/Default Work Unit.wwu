@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{75A90DE6-8B37-4D7E-A56D-4862E5874F41}" SchemaVersion="119">
+	<Events>
+		<WorkUnit Name="Default Work Unit" ID="{75A90DE6-8B37-4D7E-A56D-4862E5874F41}" PersistMode="Standalone">
+			<ChildrenList>
+				<Event Name="Play_IA_Tangos___01_Pasos_de_ciudad" ID="{244E0CD6-8727-472A-AD84-83D92BE5EBAD}">
+					<ChildrenList>
+						<Action Name="" ID="{6A336137-F24A-4369-9EE8-BC2E68C34B00}" ShortID="574224344">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="IA_Tangos_-_01_Pasos_de_ciudad" ID="{D5707F78-90C6-44C2-B7C1-F574AB71B9D4}" WorkUnitID="{B1FC7F76-A6AF-448A-8BAE-C65F4D7185E4}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

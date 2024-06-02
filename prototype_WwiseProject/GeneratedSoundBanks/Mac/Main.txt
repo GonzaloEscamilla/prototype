@@ -1,0 +1,6 @@
+Event	ID	Name			Wwise Object Path	Notes
+	1933324777	Play_IA_Tangos___01_Pasos_de_ciudad			\Default Work Unit\Play_IA_Tangos___01_Pasos_de_ciudad	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	920873347	IA_Tangos_-_01_Pasos_de_ciudad	C:\Users\unloc\OneDrive\Documentos\_Repositories\_WithThePibes\prototype\prototype_WwiseProject\.cache\Mac\SFX\IA_Tangos_-_01_Pasos_de_ciudad_818F3B66.wem		\Actor-Mixer Hierarchy\Default Work Unit\IA_Tangos_-_01_Pasos_de_ciudad		8996496
+

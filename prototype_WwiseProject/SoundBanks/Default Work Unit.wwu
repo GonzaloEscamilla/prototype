@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{B615E33D-BB7B-4E5A-A263-FA5BBF0068C8}" SchemaVersion="119">
+	<SoundBanks>
+		<WorkUnit Name="Default Work Unit" ID="{B615E33D-BB7B-4E5A-A263-FA5BBF0068C8}" PersistMode="Standalone">
+			<ChildrenList>
+				<SoundBank Name="Main" ID="{4C6888A4-A65A-4B74-8278-2935CF264BD8}">
+					<ObjectInclusionList>
+						<ObjectRef Name="Play_IA_Tangos___01_Pasos_de_ciudad" ID="{244E0CD6-8727-472A-AD84-83D92BE5EBAD}" WorkUnitID="{75A90DE6-8B37-4D7E-A56D-4862E5874F41}" Origin="Manual" Filter="7"/>
+					</ObjectInclusionList>
+					<ObjectExclusionList/>
+					<GameSyncExclusionList/>
+				</SoundBank>
+			</ChildrenList>
+		</WorkUnit>
+	</SoundBanks>
+</WwiseDocument>
