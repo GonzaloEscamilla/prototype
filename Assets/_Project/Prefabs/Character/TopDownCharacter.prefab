@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 300423219}
   - component: {fileID: 300423222}
   - component: {fileID: 300423221}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: AimSphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 5545438336132081318}
   - component: {fileID: 5545438336132081316}
   - component: {fileID: 5545438336132081319}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: GFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,7 +180,7 @@ GameObject:
   - component: {fileID: 5545438336386319914}
   - component: {fileID: 5545438336386319909}
   - component: {fileID: 5545438336386319908}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: GFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11866,7 +11866,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5545438336526185246}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11901,7 +11901,7 @@ GameObject:
   - component: {fileID: 5545438336720814168}
   - component: {fileID: 5545438336720814171}
   - component: {fileID: 5545438336720814170}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Prism
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12193,7 +12193,7 @@ GameObject:
   - component: {fileID: 5545438336731061181}
   - component: {fileID: 5545438336731061180}
   - component: {fileID: 5545438336731061183}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12295,7 +12295,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5545438336950215498}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Aim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12332,7 +12332,7 @@ GameObject:
   - component: {fileID: 4726353286096405206}
   - component: {fileID: 5545438337527412121}
   - component: {fileID: 4420740341522148620}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: TopDownCharacter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12505,7 +12505,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5916207029927562787}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Debug
   m_TagString: Untagged
   m_Icon: {fileID: 0}
