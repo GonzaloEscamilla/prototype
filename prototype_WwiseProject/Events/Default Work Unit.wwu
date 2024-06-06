@@ -14,6 +14,38 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Creature_Standing" ID="{50665C67-CEDE-481C-836E-C5752016DB89}">
+					<ChildrenList>
+						<Action Name="" ID="{581318E4-563A-48F7-803B-CDC5A69EB699}" ShortID="523440196">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Creature Standing" ID="{366FD06F-0410-4408-A2A8-7DDF6B953CC0}" WorkUnitID="{B1FC7F76-A6AF-448A-8BAE-C65F4D7185E4}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Stop" ID="{ECB7E2B1-7F07-4BCF-808F-03C067949E3B}">
+					<ChildrenList>
+						<Action Name="" ID="{F9AA172C-98B3-4AF7-AA22-67DDEEDB26EE}" ShortID="1050367138">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="3"/>
+							</PropertyList>
+							<ReferenceList/>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_Lofi" ID="{5773E79E-7FA1-4514-BE83-0A0A638DA230}">
+					<ChildrenList>
+						<Action Name="" ID="{19CD6505-8AA1-40BC-B9C0-72068A5A0C45}" ShortID="341568842">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Temaikenes" ID="{4CF0986D-DF9D-499D-A34F-FAAA1BC09CA8}" WorkUnitID="{E22C0888-A6E4-4F55-98E9-F7A65E8A1BA2}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

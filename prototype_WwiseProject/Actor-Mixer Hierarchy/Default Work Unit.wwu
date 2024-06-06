@@ -25,6 +25,149 @@
 						<ActiveSource Name="IA_Tangos_-_01_Pasos_de_ciudad" ID="{38EDA085-AA32-47E5-8A73-64756E9B1115}" Platform="Linked"/>
 					</ActiveSourceList>
 				</Sound>
+				<RandomSequenceContainer Name="Creature Standing" ID="{366FD06F-0410-4408-A2A8-7DDF6B953CC0}" ShortID="677434639">
+					<PropertyList>
+						<Property Name="3DSpatialization" Type="int16" Value="1"/>
+						<Property Name="GlobalOrPerObject" Type="int16" Value="0"/>
+						<Property Name="Pitch" Type="int32">
+							<ModifierList>
+								<ModifierInfo>
+									<Modifier Name="" ID="{F39C17A4-0A0B-46E1-A843-0414DC958BA2}">
+										<PropertyList>
+											<Property Name="Enabled" Type="bool" Value="True"/>
+											<Property Name="Min" Type="Real64" Value="-152"/>
+										</PropertyList>
+									</Modifier>
+								</ModifierInfo>
+							</ModifierList>
+						</Property>
+						<Property Name="PlayMechanismLoop" Type="bool" Value="True"/>
+						<Property Name="PlayMechanismSpecialTransitions" Type="bool" Value="True"/>
+						<Property Name="PlayMechanismSpecialTransitionsType" Type="int16" Value="1"/>
+						<Property Name="PlayMechanismSpecialTransitionsValue" Type="Real64" Value="1.5"/>
+						<Property Name="PlayMechanismStepOrContinuous" Type="int16" Value="0"/>
+					</PropertyList>
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{74F4ED3F-E440-4860-9101-56CA94A6165B}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{73030092-A046-44FA-BA34-F322B47C674B}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<Sound Name="Creature-Standing-001" ID="{E32ED895-8CE2-4228-9AE5-615E2795BFBE}" ShortID="540278842">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{74F4ED3F-E440-4860-9101-56CA94A6165B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{73030092-A046-44FA-BA34-F322B47C674B}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Creature-Standing-001" ID="{D09D77A4-8DFB-4498-BB12-6E0B91E1EE89}">
+									<Language>SFX</Language>
+									<AudioFile>Creature-Standing-001.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="371834010"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="Creature-Standing-001" ID="{D09D77A4-8DFB-4498-BB12-6E0B91E1EE89}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Creature-Standing-002" ID="{E893B937-7737-4177-AFFE-3F77CA3C6135}" ShortID="96671833">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{74F4ED3F-E440-4860-9101-56CA94A6165B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{73030092-A046-44FA-BA34-F322B47C674B}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Creature-Standing-002" ID="{BE7B6131-0513-490B-BBE6-170AAF3EE4FA}">
+									<Language>SFX</Language>
+									<AudioFile>Creature-Standing-002.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1017985854"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="Creature-Standing-002" ID="{BE7B6131-0513-490B-BBE6-170AAF3EE4FA}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Creature-Standing-003" ID="{FB53162D-00FE-47A5-B61F-F2FCC04BAA25}" ShortID="315488872">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{74F4ED3F-E440-4860-9101-56CA94A6165B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{73030092-A046-44FA-BA34-F322B47C674B}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Creature-Standing-003" ID="{6A3C008A-4E68-4FC5-A145-523E83B916E3}">
+									<Language>SFX</Language>
+									<AudioFile>Creature-Standing-003.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="227018618"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="Creature-Standing-003" ID="{6A3C008A-4E68-4FC5-A145-523E83B916E3}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Creature-Standing-004" ID="{98A664C2-1498-4636-8464-534B2A2EE728}" ShortID="261265196">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{74F4ED3F-E440-4860-9101-56CA94A6165B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{73030092-A046-44FA-BA34-F322B47C674B}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Creature-Standing-004" ID="{810A4BA7-DB7B-4B3C-BF13-D55F7228456B}">
+									<Language>SFX</Language>
+									<AudioFile>Creature-Standing-004.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="406899834"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="Creature-Standing-004" ID="{810A4BA7-DB7B-4B3C-BF13-D55F7228456B}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Creature-Standing-005" ID="{58400E30-7832-461D-8CEA-C9733524E8B0}" ShortID="653835520">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{74F4ED3F-E440-4860-9101-56CA94A6165B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{73030092-A046-44FA-BA34-F322B47C674B}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Creature-Standing-005" ID="{D93357C4-A773-4260-B847-495B44152542}">
+									<Language>SFX</Language>
+									<AudioFile>Creature-Standing-005.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="908431727"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="Creature-Standing-005" ID="{D93357C4-A773-4260-B847-495B44152542}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</RandomSequenceContainer>
 			</ChildrenList>
 		</WorkUnit>
 	</AudioObjects>

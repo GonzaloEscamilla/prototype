@@ -1,6 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{E22C0888-A6E4-4F55-98E9-F7A65E8A1BA2}" SchemaVersion="119">
 	<InteractiveMusic>
-		<WorkUnit Name="Default Work Unit" ID="{E22C0888-A6E4-4F55-98E9-F7A65E8A1BA2}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{E22C0888-A6E4-4F55-98E9-F7A65E8A1BA2}" PersistMode="Standalone">
+			<ChildrenList>
+				<MusicPlaylistContainer Name="Temaikenes" ID="{4CF0986D-DF9D-499D-A34F-FAAA1BC09CA8}" ShortID="658860829">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{74F4ED3F-E440-4860-9101-56CA94A6165B}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{73030092-A046-44FA-BA34-F322B47C674B}"/>
+						</Reference>
+						<Reference Name="PlaylistRoot">
+							<Custom>
+								<MusicPlaylistItem Name="" ID="{B25BEC6B-48A5-4258-B18C-E4EEB0DF2526}" ShortID="964460306">
+									<ChildrenList>
+										<MusicPlaylistItem Name="" ID="{527698CB-68E4-447F-AC17-5EF2FAF02930}" ShortID="952582399">
+											<PropertyList>
+												<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Segment">
+													<ObjectRef Name="Lofi 3 ember rithms" ID="{881B3CF7-1D85-43E7-BC05-D331D362EBC4}" WorkUnitID="{E22C0888-A6E4-4F55-98E9-F7A65E8A1BA2}"/>
+												</Reference>
+											</ReferenceList>
+										</MusicPlaylistItem>
+									</ChildrenList>
+								</MusicPlaylistItem>
+							</Custom>
+						</Reference>
+						<Reference Name="TransitionRoot">
+							<Custom>
+								<MusicTransition Name="Root" ID="{9445DB59-E514-4780-923B-E70163110292}">
+									<PropertyList>
+										<Property Name="IsFolder" Type="bool" Value="True"/>
+									</PropertyList>
+									<ChildrenList>
+										<MusicTransition Name="Transition" ID="{B0E9A5C8-F71D-4676-93E3-0992FA79202B}">
+											<TransitionInfo/>
+										</MusicTransition>
+									</ChildrenList>
+									<TransitionInfo/>
+								</MusicTransition>
+							</Custom>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<MusicSegment Name="Lofi 3 ember rithms" ID="{881B3CF7-1D85-43E7-BC05-D331D362EBC4}" ShortID="921456875">
+							<PropertyList>
+								<Property Name="EndPosition" Type="Real64" Value="92566.4172335601"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{74F4ED3F-E440-4860-9101-56CA94A6165B}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{73030092-A046-44FA-BA34-F322B47C674B}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<MusicTrack Name="Lofi 3 ember rithms" ID="{6398F5BD-F516-4192-8975-8A6D894F6920}" ShortID="85506652">
+									<ReferenceList>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{73030092-A046-44FA-BA34-F322B47C674B}"/>
+										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{08D3E383-133C-42CC-BEE3-AA056D6BF439}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="Lofi 3 ember rithms" ID="{8AD91D30-1DDB-45A8-9258-2C4A3024D569}">
+											<Language>SFX</Language>
+											<AudioFile>Lofi 3 ember rithms.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="214978058"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ObjectLists>
+										<ObjectList Name="Sequences">
+											<Reference>
+												<Local>
+													<MusicTrackSequence Name="" ID="{E083A0E3-E73B-442A-B064-EE4A92D23C18}">
+														<ObjectLists>
+															<ObjectList Name="Clips">
+																<Reference>
+																	<Local>
+																		<MusicClip Name="Lofi 3 ember rithms" ID="{8ABC2738-58DF-4689-8E91-83A1D20D65A2}">
+																			<PropertyList>
+																				<Property Name="EndTrimOffset" Type="Real64" Value="92566.4172335601"/>
+																				<Property Name="FadeInMode" Type="int16" Value="0"/>
+																				<Property Name="FadeOutMode" Type="int16" Value="0"/>
+																			</PropertyList>
+																			<AudioSourceRef Name="Lofi 3 ember rithms" ID="{8AD91D30-1DDB-45A8-9258-2C4A3024D569}"/>
+																		</MusicClip>
+																	</Local>
+																</Reference>
+															</ObjectList>
+														</ObjectLists>
+													</MusicTrackSequence>
+												</Local>
+											</Reference>
+										</ObjectList>
+									</ObjectLists>
+								</MusicTrack>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="Cues">
+									<Reference>
+										<Local>
+											<MusicCue Name="Entry Cue" ID="{2C1897E8-0844-45B6-8BCE-6871F519C2DE}"/>
+										</Local>
+									</Reference>
+									<Reference>
+										<Local>
+											<MusicCue Name="Exit Cue" ID="{351E4F4C-E51A-4393-83BC-AA9A467F0077}">
+												<PropertyList>
+													<Property Name="CueType" Type="int16" Value="1"/>
+													<Property Name="TimeMs" Type="Real64" Value="92566.4172335601"/>
+												</PropertyList>
+											</MusicCue>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</MusicSegment>
+					</ChildrenList>
+				</MusicPlaylistContainer>
+			</ChildrenList>
+		</WorkUnit>
 	</InteractiveMusic>
 </WwiseDocument>
