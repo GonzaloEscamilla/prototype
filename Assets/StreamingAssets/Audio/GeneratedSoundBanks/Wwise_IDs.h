@@ -13,7 +13,10 @@ namespace AK
 {
     namespace EVENTS
     {
+        static const AkUniqueID CREATURE_STANDING = 4106196673U;
         static const AkUniqueID PLAY_IA_TANGOS___01_PASOS_DE_CIUDAD = 1933324777U;
+        static const AkUniqueID PLAY_LOFI = 4148796230U;
+        static const AkUniqueID STOP = 788884573U;
     } // namespace EVENTS
 
     namespace BANKS

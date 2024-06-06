@@ -5,7 +5,10 @@
 			<ChildrenList>
 				<SoundBank Name="Main" ID="{4C6888A4-A65A-4B74-8278-2935CF264BD8}">
 					<ObjectInclusionList>
+						<ObjectRef Name="Play_Lofi" ID="{5773E79E-7FA1-4514-BE83-0A0A638DA230}" WorkUnitID="{75A90DE6-8B37-4D7E-A56D-4862E5874F41}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_IA_Tangos___01_Pasos_de_ciudad" ID="{244E0CD6-8727-472A-AD84-83D92BE5EBAD}" WorkUnitID="{75A90DE6-8B37-4D7E-A56D-4862E5874F41}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Creature_Standing" ID="{50665C67-CEDE-481C-836E-C5752016DB89}" WorkUnitID="{75A90DE6-8B37-4D7E-A56D-4862E5874F41}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Stop" ID="{ECB7E2B1-7F07-4BCF-808F-03C067949E3B}" WorkUnitID="{75A90DE6-8B37-4D7E-A56D-4862E5874F41}" Origin="Manual" Filter="7"/>
 					</ObjectInclusionList>
 					<ObjectExclusionList/>
 					<GameSyncExclusionList/>

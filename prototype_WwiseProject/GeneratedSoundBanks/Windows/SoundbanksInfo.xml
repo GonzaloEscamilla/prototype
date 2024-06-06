@@ -22,23 +22,62 @@
 				<Bus Id="3803692087" Name="Master Audio Bus"/>
 			</Busses>
 		</SoundBank>
-		<SoundBank Id="3161908922" Type="User" Language="SFX" Hash="{2C4EFB50-523A-F5A9-0B75-768386D87365}">
+		<SoundBank Id="3161908922" Type="User" Language="SFX" Hash="{5BF1F9B9-611D-785F-7F4F-0E294D429E15}">
 			<ShortName>Main</ShortName>
 			<Path>Main.bnk</Path>
 			<Media>
+				<File Id="214978058" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Lofi 3 ember rithms.wav</ShortName>
+					<CachePath>SFX/Lofi 3 ember rithms_FBC78EF0.wem</CachePath>
+				</File>
+				<File Id="227018618" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Creature-Standing-003.wav</ShortName>
+					<CachePath>SFX/Creature-Standing-003_818F3B66.wem</CachePath>
+				</File>
+				<File Id="371834010" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Creature-Standing-001.wav</ShortName>
+					<CachePath>SFX/Creature-Standing-001_818F3B66.wem</CachePath>
+				</File>
+				<File Id="406899834" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Creature-Standing-004.wav</ShortName>
+					<CachePath>SFX/Creature-Standing-004_818F3B66.wem</CachePath>
+				</File>
+				<File Id="908431727" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Creature-Standing-005.wav</ShortName>
+					<CachePath>SFX/Creature-Standing-005_818F3B66.wem</CachePath>
+				</File>
 				<File Id="920873347" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>IA_Tangos_-_01_Pasos_de_ciudad.wav</ShortName>
 					<CachePath>SFX/IA_Tangos_-_01_Pasos_de_ciudad_818F3B66.wem</CachePath>
 				</File>
+				<File Id="1017985854" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Creature-Standing-002.wav</ShortName>
+					<CachePath>SFX/Creature-Standing-002_818F3B66.wem</CachePath>
+				</File>
 			</Media>
 			<Events>
+				<Event Id="4106196673" Name="Creature_Standing" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="227018618"/>
+						<MediaRef Id="371834010"/>
+						<MediaRef Id="406899834"/>
+						<MediaRef Id="908431727"/>
+						<MediaRef Id="1017985854"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="1933324777" Name="Play_IA_Tangos___01_Pasos_de_ciudad" DurationType="OneShot" DurationMin="51" DurationMax="51">
 					<MediaRefs>
 						<MediaRef Id="920873347"/>
 					</MediaRefs>
 				</Event>
+				<Event Id="4148796230" Name="Play_Lofi" DurationType="OneShot" DurationMin="92.566414" DurationMax="92.566414">
+					<MediaRefs>
+						<MediaRef Id="214978058"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="788884573" Name="Stop" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 			</Events>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{D1F88409-4776-76FD-1354-B667049E0ABB}</FileHash>
+	<FileHash>{73125BEC-E7C3-494C-99D4-46A329BE033B}</FileHash>
 </SoundBanksInfo>

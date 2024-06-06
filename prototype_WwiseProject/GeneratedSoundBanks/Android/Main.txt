@@ -1,6 +1,15 @@
 Event	ID	Name			Wwise Object Path	Notes
+	788884573	Stop			\Default Work Unit\Stop	
 	1933324777	Play_IA_Tangos___01_Pasos_de_ciudad			\Default Work Unit\Play_IA_Tangos___01_Pasos_de_ciudad	
+	4106196673	Creature_Standing			\Default Work Unit\Creature_Standing	
+	4148796230	Play_Lofi			\Default Work Unit\Play_Lofi	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	920873347	IA_Tangos_-_01_Pasos_de_ciudad	C:\Users\unloc\OneDrive\Documentos\_Repositories\_WithThePibes\prototype\prototype_WwiseProject\.cache\Android\SFX\IA_Tangos_-_01_Pasos_de_ciudad_818F3B66.wem		\Actor-Mixer Hierarchy\Default Work Unit\IA_Tangos_-_01_Pasos_de_ciudad		8996496
+	214978058	Lofi 3 ember rithms	D:\DOCUMENTOS\Unity Projects\Equipo 2024\Prototype\prototype\prototype_WwiseProject\.cache\Android\SFX\Lofi 3 ember rithms_FBC78EF0.wem		\Interactive Music Hierarchy\Default Work Unit\Temaikenes\Lofi 3 ember rithms\Lofi 3 ember rithms		16328812
+	227018618	Creature-Standing-003	D:\DOCUMENTOS\Unity Projects\Equipo 2024\Prototype\prototype\prototype_WwiseProject\.cache\Android\SFX\Creature-Standing-003_818F3B66.wem		\Actor-Mixer Hierarchy\Default Work Unit\Creature Standing\Creature-Standing-003		882096
+	371834010	Creature-Standing-001	D:\DOCUMENTOS\Unity Projects\Equipo 2024\Prototype\prototype\prototype_WwiseProject\.cache\Android\SFX\Creature-Standing-001_818F3B66.wem		\Actor-Mixer Hierarchy\Default Work Unit\Creature Standing\Creature-Standing-001		882096
+	406899834	Creature-Standing-004	D:\DOCUMENTOS\Unity Projects\Equipo 2024\Prototype\prototype\prototype_WwiseProject\.cache\Android\SFX\Creature-Standing-004_818F3B66.wem		\Actor-Mixer Hierarchy\Default Work Unit\Creature Standing\Creature-Standing-004		882096
+	908431727	Creature-Standing-005	D:\DOCUMENTOS\Unity Projects\Equipo 2024\Prototype\prototype\prototype_WwiseProject\.cache\Android\SFX\Creature-Standing-005_818F3B66.wem		\Actor-Mixer Hierarchy\Default Work Unit\Creature Standing\Creature-Standing-005		882096
+	920873347	IA_Tangos_-_01_Pasos_de_ciudad	D:\DOCUMENTOS\Unity Projects\Equipo 2024\Prototype\prototype\prototype_WwiseProject\.cache\Android\SFX\IA_Tangos_-_01_Pasos_de_ciudad_818F3B66.wem		\Actor-Mixer Hierarchy\Default Work Unit\IA_Tangos_-_01_Pasos_de_ciudad		8996496
+	1017985854	Creature-Standing-002	D:\DOCUMENTOS\Unity Projects\Equipo 2024\Prototype\prototype\prototype_WwiseProject\.cache\Android\SFX\Creature-Standing-002_818F3B66.wem		\Actor-Mixer Hierarchy\Default Work Unit\Creature Standing\Creature-Standing-002		882096
 
