@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Linq;
+using _Project.Scripts.Utilities;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -12,7 +13,8 @@ namespace _Project.Scripts.Core
         [Title("Dependencies")]
         [SerializeField] private CharacterSettings settings;
         [SerializeField] private CharacterController characterController;
-    
+        [SerializeField] private DetectorSettings interactablesDetectorSettings;
+        
         private float _speedAdditionalEffectsMultiplier;
         public float SpeedAdditionalEffectsMultiplier
         {
@@ -28,21 +30,22 @@ namespace _Project.Scripts.Core
         private bool _isGamepad;
         private Camera _camera;
         private PlayerInputs _playerInputs;
+        private Detector<IInteractable> _interactablesDetected;
 
-        private Vector2 movementInput;
-        private Vector3 rawMovement;
-        private Vector3 characterFacingDirection;
-        private Vector2 aim;
+        private Vector2 _movementInput;
+        private Vector3 _rawMovement;
+        private Vector3 _characterFacingDirection;
+        private Vector2 _aim;
     
         private bool _isMovementPressed;
         private bool _isRunPressed;
 
-        private bool isInvulnerable;
+        private bool _isInvulnerable;
 
         private bool _isDashing;
-        private bool isDashBuffered;
+        private bool _isDashBuffered;
 
-        private float dashElapsedTime = 0;
+        private float _dashElapsedTime = 0;
 
         
         private bool _isInputEnable;
@@ -60,7 +63,8 @@ namespace _Project.Scripts.Core
 
             _playerInputs.CharacterControls.Dash.started += Dash;
 
-            _playerInputs.CharacterControls.Action.started += TryInteraction;
+            _playerInputs.CharacterControls.Action.started += StartInteraction;
+            _playerInputs.CharacterControls.Action.canceled += EndInteraction;
             
             _camera = Camera.main;
         
@@ -68,7 +72,7 @@ namespace _Project.Scripts.Core
 
             SpeedAdditionalEffectsMultiplier = 1;
         }
-
+        
         private void OnEnable()
         {
             _playerInputs.Enable();
@@ -111,10 +115,10 @@ namespace _Project.Scripts.Core
             if (!_isInputEnable)
                 return;
             
-            movementInput = context.ReadValue<Vector2>();
-            rawMovement.x = movementInput.x;
-            rawMovement.z = movementInput.y;
-            _isMovementPressed = rawMovement.x != 0 || rawMovement.y != 0;
+            _movementInput = context.ReadValue<Vector2>();
+            _rawMovement.x = _movementInput.x;
+            _rawMovement.z = _movementInput.y;
+            _isMovementPressed = _rawMovement.x != 0 || _rawMovement.y != 0;
         }
         private void HandleRun(InputAction.CallbackContext context)
         {
@@ -122,13 +126,13 @@ namespace _Project.Scripts.Core
         }
         private void HandleRotationByInput()
         {
-            aim = _playerInputs.CharacterControls.Aim.ReadValue<Vector2>();
+            _aim = _playerInputs.CharacterControls.Aim.ReadValue<Vector2>();
         
             if (_isGamepad)
             {
-                if (Mathf.Abs(aim.x) > 0.01f || Mathf.Abs(aim.y) > 0.01f)
+                if (Mathf.Abs(_aim.x) > 0.01f || Mathf.Abs(_aim.y) > 0.01f)
                 {
-                    Vector3 characterDirection = Vector3.right * aim.x + Vector3.forward * aim.y;
+                    Vector3 characterDirection = Vector3.right * _aim.x + Vector3.forward * _aim.y;
 
                     if (characterDirection.sqrMagnitude > 0.0f)
                     {
@@ -136,13 +140,13 @@ namespace _Project.Scripts.Core
                         transform.rotation =
                             Quaternion.RotateTowards(transform.rotation, newRotation, settings.rotationFactorPerFrame * Time.deltaTime);
                     
-                        characterFacingDirection = transform.TransformDirection(Vector3.forward);
+                        _characterFacingDirection = transform.TransformDirection(Vector3.forward);
                     }
                 }
             }
             else
             {
-                Ray ray = _camera.ScreenPointToRay(aim);
+                Ray ray = _camera.ScreenPointToRay(_aim);
                 Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
 
                 if (groundPlane.Raycast(ray, out var rayDistance))
@@ -158,7 +162,7 @@ namespace _Project.Scripts.Core
             Vector3 heightCorrectedPoint = new Vector3(point.x, transform.position.y, point.z);
 
             // debugMouseAimObject.transform.position = heightCorrectedPoint;
-            characterFacingDirection = (heightCorrectedPoint - transform.position).normalized;
+            _characterFacingDirection = (heightCorrectedPoint - transform.position).normalized;
 
             transform.LookAt(heightCorrectedPoint);
         }
@@ -167,8 +171,8 @@ namespace _Project.Scripts.Core
         {
             if (_isDashing)
             {
-                if (settings.bufferedDashPercentage <= dashElapsedTime / settings.dashDuration)
-                    isDashBuffered = true;
+                if (settings.bufferedDashPercentage <= _dashElapsedTime / settings.dashDuration)
+                    _isDashBuffered = true;
                 return;
             }
         
@@ -180,7 +184,7 @@ namespace _Project.Scripts.Core
         {
             characterController.detectCollisions = false;
 
-            dashElapsedTime = 0;
+            _dashElapsedTime = 0;
            
             Vector3 movementVector = transform.forward;
             if (_isMovementPressed)
@@ -188,34 +192,34 @@ namespace _Project.Scripts.Core
             
             yield return null;
         
-            while (dashElapsedTime <= settings.dashDuration )
+            while (_dashElapsedTime <= settings.dashDuration )
             {
-                var dashPercentage = dashElapsedTime / settings.dashDuration;
-                isInvulnerable = false;
+                var dashPercentage = _dashElapsedTime / settings.dashDuration;
+                _isInvulnerable = false;
                 
                 if (dashPercentage >= settings.dashInvulnerabilityRange.x && dashPercentage <= settings.dashInvulnerabilityRange.y)
                 {
-                    isInvulnerable = true;
+                    _isInvulnerable = true;
                 }
                 
                 characterController.Move(movementVector * (settings.dashSpeed  * Time.deltaTime));
-                dashElapsedTime += Time.deltaTime;
+                _dashElapsedTime += Time.deltaTime;
                 yield return null;
             }
 
             _isDashing = false;
             characterController.detectCollisions = true;
-            isInvulnerable = false;
+            _isInvulnerable = false;
 
-            if (!isDashBuffered) yield break;
+            if (!_isDashBuffered) yield break;
         
             _isDashing = true;
-            isDashBuffered = false;
+            _isDashBuffered = false;
         
             StartCoroutine(DashCoroutine());
         }
     
-        private void TryInteraction(InputAction.CallbackContext obj)
+        private void StartInteraction(InputAction.CallbackContext obj)
         {
             var colliders = Physics.OverlapSphere(transform.position, 2f, settings.interactionLayerMask);
 
@@ -231,20 +235,20 @@ namespace _Project.Scripts.Core
 
             foreach (var interactable in interactables)
             {
-                interactable.Interact();
+                interactable?.Interact(gameObject);
             }
-            
-            foreach (var interactable in interactables)
-                interactable.Interact();
+        }
+        
+        private void EndInteraction(InputAction.CallbackContext obj)
+        {
         }
         
         private Vector3 GetCameraAffectedMovement()
         {
             if (!_isInputEnable)
-                return rawMovement;
+                return _rawMovement;
             
-            return Quaternion.Euler(0, _camera.transform.eulerAngles.y, 0) * rawMovement;
+            return Quaternion.Euler(0, _camera.transform.eulerAngles.y, 0) * _rawMovement;
         }
-        
     }
 }
