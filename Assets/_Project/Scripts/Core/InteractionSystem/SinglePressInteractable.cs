@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -6,21 +7,19 @@ namespace _Project.Scripts.Core
     /// <summary>
     /// For single use Interactables
     /// </summary>
-    public class SinglePressInteractable : MonoBehaviour, IInteractable
+    public class SinglePressInteractable : BaseInteractable
     {
         [SerializeField] private bool enableOnAwake;
         [SerializeField] private bool singleUse;
-        [SerializeField] private float checkRate;
-        [SerializeField] private float detectionRange;
-        [SerializeField] private LayerMask detectionLayerMask;
-        [SerializeField] private bool lockRotation;
+        [SerializeField] private float cooldown;
         
         public UnityEvent OnInteract;
 
         public bool IsEnable { get; set; }
 
-        private int usesAmount;
-
+        private int _usesAmount;
+        private bool _isCoolingDown;
+        
         private void Start()
         {
             if (!enableOnAwake)
@@ -33,25 +32,29 @@ namespace _Project.Scripts.Core
         {
             StopAllCoroutines();
 
-            usesAmount = 0;
+            _usesAmount = 0;
         }
 
-        public void Interact(GameObject interactionSource)
+        public override void Interact(GameObject interactionSource)
         {
-            if (!IsEnable)
+            if (!IsEnable || _isCoolingDown)
                 return;
 
-            if (singleUse && usesAmount > 0)
+            if (singleUse && _usesAmount > 0)
                 return;
+
+            _usesAmount++;
 
             OnInteract?.Invoke();
-            usesAmount++;
+            StartCoroutine(Cooldown());
             Debug.Log($"Interacted by {interactionSource}", interactionSource);
         }
 
-        private void OnDrawGizmos()
+        private IEnumerator Cooldown()
         {
-            Gizmos.DrawWireSphere(transform.position, detectionRange);
+            _isCoolingDown = true;
+            yield return new WaitForSeconds(cooldown);
+            _isCoolingDown = false;
         }
     }
 }

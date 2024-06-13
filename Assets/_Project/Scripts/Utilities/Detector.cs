@@ -5,7 +5,7 @@ using UnityEngine;
 namespace _Project.Scripts.Utilities
 {
     [System.Serializable]
-    public class Detector<T>
+    public class Detector<T> where T : Component
     {
         [Header("Settings")] 
         private Transform center;
@@ -17,7 +17,7 @@ namespace _Project.Scripts.Utilities
         private float elapsedTime = 0f;
         
         [Header("Status")]
-        [SerializeField] private List<Collider> detectedColliders;
+        [SerializeField] private List<T> detectedComponents;
 
         public event Action<T> OnTargetDetected;
         public event Action<T> OnTargetLost;
@@ -35,23 +35,7 @@ namespace _Project.Scripts.Utilities
             elapsedTime = 0f;
             
             allocatedColliders = new Collider[maxDetectableColliders];
-            detectedColliders = new List<Collider>();
-        }
-
-        public List<Collider> DetectColliders(LayerMask whatToDetected, float sphereRadius, out int amount, bool sorted)
-        {
-            amount = Physics.OverlapSphereNonAlloc(center.position, sphereRadius, allocatedColliders, whatToDetected);
-
-            List<Collider> collList = new List<Collider>();
-
-            for (int i = 0; i < amount; i++)
-            {
-                collList.Add(allocatedColliders[i]);
-            }
-
-            if (sorted) SortCollidersByDistance(collList);
-
-            return collList;
+            detectedComponents = new List<T>();
         }
 
         public void Update()
@@ -59,9 +43,9 @@ namespace _Project.Scripts.Utilities
             Detect();
         }
 
-        public List<Collider> GetCurrentColliders()
+        public List<T> GetCurrentDetectedComponents()
         {
-            return detectedColliders;
+            return detectedComponents;
         }
 
         public static void DetectColliders(Vector3 center, float radius, out Collider[] hits, LayerMask detectionLayer)
@@ -76,28 +60,29 @@ namespace _Project.Scripts.Utilities
             }
         }
 
-        public void SortCollidersByDistance(List<Collider> currentColl)
+        public void SortByDistance(List<T> currentColl)
         {
             if (currentColl.Count > 0)
             {
-                currentColl.Sort(delegate (Collider a, Collider b)
-                {   
+                currentColl.Sort((a, b) =>
+                {
                     return Vector3.SqrMagnitude(a.transform.position - center.position).CompareTo(
-                     Vector3.SqrMagnitude(b.transform.position - center.position));
+                        Vector3.SqrMagnitude(b.transform.position - center.position));
                 });
             }
         }
 
         public void Reset()
         {
-            detectedColliders = new List<Collider>();
+            detectedComponents = new List<T>();
             allocatedColliders = new Collider[maxDetectableColliders];
         }
 
         private void Detect()
         {
             elapsedTime += Time.deltaTime;
-            if (!(elapsedTime > frameRate)) return;
+            if (!(elapsedTime > frameRate)) 
+                return;
             
             int amount  = Physics.OverlapSphereNonAlloc(center.position, radius, allocatedColliders, detectionMask);
 
@@ -105,53 +90,46 @@ namespace _Project.Scripts.Utilities
 
             for (int i = 0; i < amount; i++)
             {
-                if (detectedColliders.Contains(allocatedColliders[i])) continue;
+                var detectedComponent = allocatedColliders[i].GetComponent<T>();
+
+                if (detectedComponent == null)
+                    continue;
+                                    
+                if (detectedComponents.Contains(detectedComponent)) 
+                    continue;
                 
-                detectedColliders.Add(allocatedColliders[i]);
+                detectedComponents.Add(detectedComponent);
 
                 // Invoke the detected objetive event.
-                OnTargetDetected?.Invoke(allocatedColliders[i].GetComponent<T>());
+                OnTargetDetected?.Invoke(detectedComponent);
             }
 
-            // I lost at least one collider.
-            if (amount < detectedColliders.Count)
+            var componentsToRemove = new List<T>();
+            foreach (var component in detectedComponents)
             {
-                for (int i = 0; i < detectedColliders.Count; i++)
+                if (Vector3.Distance(component.transform.position, center.position) > radius)
                 {
-                    var isInside = false;
-
-                    for (int j = 0; j < amount && !isInside; j++)
-                    {
-                        if (detectedColliders[i].Equals(allocatedColliders[j]))
-                        {
-                            // The collider is still inside the range.
-                            isInside = true;
-                        }
-                    }
-
-                    if (isInside) continue;
-
-                    if (detectedColliders[i] == null)
-                    {
-                        detectedColliders.Remove(detectedColliders[i]);
-                        continue;
-                    }
-                    OnTargetLost?.Invoke(detectedColliders[i].GetComponent<T>());
-                    detectedColliders.Remove(detectedColliders[i]);
+                    componentsToRemove.Add(component);
                 }
             }
 
+            foreach (var component in componentsToRemove)
+            {
+                detectedComponents.Remove(component);
+                OnTargetLost?.Invoke(component);
+            }
+
             if (sortByDistance)
-                SortCollidersByDistance(detectedColliders);
+                SortByDistance(detectedComponents);
         }
 
         private void OnDrawGizmosSelected()
         {
             Gizmos.DrawWireSphere(center.position, radius);
 
-            for (int i = 0; i < detectedColliders.Count; i++)
+            for (int i = 0; i < detectedComponents.Count; i++)
             {
-                Gizmos.DrawLine(center.position, detectedColliders[i].transform.position);
+                Gizmos.DrawLine(center.position, detectedComponents[i].transform.position);
             }
         }
     }

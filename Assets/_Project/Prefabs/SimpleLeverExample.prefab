@@ -180,7 +180,7 @@ GameObject:
   - component: {fileID: 8023887291930122819}
   - component: {fileID: 5233975045781371738}
   m_Layer: 6
-  m_Name: SimpleLever
+  m_Name: SimpleLeverExample
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -261,12 +261,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enableOnAwake: 1
   singleUse: 0
-  checkRate: 0.1
-  detectionRange: 2
-  detectionLayerMask:
-    serializedVersion: 2
-    m_Bits: 128
-  lockRotation: 1
+  cooldown: 1
   OnInteract:
     m_PersistentCalls:
       m_Calls: []

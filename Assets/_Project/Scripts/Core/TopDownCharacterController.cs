@@ -14,6 +14,7 @@ namespace _Project.Scripts.Core
         [SerializeField] private CharacterSettings settings;
         [SerializeField] private CharacterController characterController;
         [SerializeField] private DetectorSettings interactablesDetectorSettings;
+        [SerializeField] private Transform interactablesDetectorCenter;
         
         private float _speedAdditionalEffectsMultiplier;
         public float SpeedAdditionalEffectsMultiplier
@@ -30,7 +31,8 @@ namespace _Project.Scripts.Core
         private bool _isGamepad;
         private Camera _camera;
         private PlayerInputs _playerInputs;
-        private Detector<IInteractable> _interactablesDetected;
+        private Detector<BaseInteractable> _interactablesDetector;
+        private BaseInteractable _currentInteractableTarget;
 
         private Vector2 _movementInput;
         private Vector3 _rawMovement;
@@ -39,7 +41,8 @@ namespace _Project.Scripts.Core
     
         private bool _isMovementPressed;
         private bool _isRunPressed;
-
+        private bool _isInteractionPressed;
+        
         private bool _isInvulnerable;
 
         private bool _isDashing;
@@ -47,7 +50,6 @@ namespace _Project.Scripts.Core
 
         private float _dashElapsedTime = 0;
 
-        
         private bool _isInputEnable;
 
         private void Awake()
@@ -63,14 +65,18 @@ namespace _Project.Scripts.Core
 
             _playerInputs.CharacterControls.Dash.started += Dash;
 
-            _playerInputs.CharacterControls.Action.started += StartInteraction;
-            _playerInputs.CharacterControls.Action.canceled += EndInteraction;
+            _playerInputs.CharacterControls.Action.started += HandleInteraction;
+            _playerInputs.CharacterControls.Action.canceled += HandleInteraction;
             
             _camera = Camera.main;
         
             _isInputEnable = true;
 
             SpeedAdditionalEffectsMultiplier = 1;
+
+            _interactablesDetector = new Detector<BaseInteractable>(interactablesDetectorCenter, interactablesDetectorSettings);
+            _interactablesDetector.OnTargetDetected += InteractableTargetDetected;
+            _interactablesDetector.OnTargetLost += InteractableTargetLost;
         }
         
         private void OnEnable()
@@ -87,7 +93,10 @@ namespace _Project.Scripts.Core
         {
             if (_isDashing)
                 return;
-        
+            
+            _interactablesDetector.Update();
+            TryToInteract();
+            
             HandleRotationByInput();
             
             Vector3 movement = GetCameraAffectedMovement();
@@ -103,7 +112,7 @@ namespace _Project.Scripts.Core
             
             characterController.Move(movement * (settings.speed * SpeedAdditionalEffectsMultiplier * Time.deltaTime));
         }
-        
+
         public void OnDeviceChange(PlayerInput playerInput)
         {
             _isGamepad = playerInput.currentControlScheme.Equals("ProController") ? true : false;
@@ -124,6 +133,7 @@ namespace _Project.Scripts.Core
         {
             _isRunPressed = context.ReadValueAsButton();
         }
+        
         private void HandleRotationByInput()
         {
             _aim = _playerInputs.CharacterControls.Aim.ReadValue<Vector2>();
@@ -219,28 +229,30 @@ namespace _Project.Scripts.Core
             StartCoroutine(DashCoroutine());
         }
     
-        private void StartInteraction(InputAction.CallbackContext obj)
+        private void InteractableTargetDetected(BaseInteractable interactable)
         {
-            var colliders = Physics.OverlapSphere(transform.position, 2f, settings.interactionLayerMask);
-
-            if (colliders.Length <= 0)
-            {
-                return;
-            }
-            
-            var interactables = colliders
-                .Select(t => t.GetComponent<IInteractable>())
-                .Where(interactable => interactable != null)
-                .ToList();
-
-            foreach (var interactable in interactables)
-            {
-                interactable?.Interact(gameObject);
-            }
+            _currentInteractableTarget = interactable;
         }
         
-        private void EndInteraction(InputAction.CallbackContext obj)
+        private void InteractableTargetLost(BaseInteractable interactableLost)
         {
+            if (interactableLost != _currentInteractableTarget)
+                return;
+            
+            _currentInteractableTarget = null;
+        }
+        
+        private void HandleInteraction(InputAction.CallbackContext context)
+        {
+            _isInteractionPressed = context.ReadValueAsButton();
+        }
+        
+        private void TryToInteract()
+        {
+            if (!_isInteractionPressed)
+                return;
+            
+            _currentInteractableTarget?.Interact(gameObject);
         }
         
         private Vector3 GetCameraAffectedMovement()
