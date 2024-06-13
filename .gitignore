@@ -137,3 +137,13 @@ Assets/Wwise/Editor/ProjectData/AkWwiseProjectData.asset*
 ## --------------- ##
 logRunSetup.txt
 heu_session.txt
+Assets/KinematicCharacterController/ExampleCharacter/
+Assets/KinematicCharacterController/Examples/
+Assets/KinematicCharacterController/Walkthrough/
+Assets/KinematicCharacterController/Walkthrough.pdf
+Assets/KinematicCharacterController/Walkthrough.meta
+Assets/KinematicCharacterController/Walkthrough.pdf.meta
+Assets/KinematicCharacterController/UserGuide.pdf
+Assets/KinematicCharacterController/UserGuide.pdf.meta
+Assets/KinematicCharacterController/Examples.meta
+Assets/KinematicCharacterController/ExampleCharacter.meta
