@@ -41,6 +41,11 @@ namespace _Project.Scripts.Utilities.Math
 		{
 			return new Vector2(vector3.x, vector3.y);
 		}
+
+		public static Vector3 XZ(this Vector2 vector2)
+		{
+			return new Vector3(vector2.x, 0, vector2.y);
+		}
 		
 		public static Vector3[] GetOrthonormalDistribution(Vector3 center, Vector3 forward, int amountOfPoints, float gap, Vector3 normal, float offset)
 		{
