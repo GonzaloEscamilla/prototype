@@ -1,8 +1,9 @@
+#if UNITY_EDITOR
 using System;
-using _Project.Scripts.Editor.Tools;
 using UnityEditor;
 using UnityEngine;
-using Object = UnityEngine.Object;
+
+using _Project.Scripts.Editor.Tools;
 
 namespace Pyros.Editor.Toolbar.Objects
 {
@@ -35,3 +36,4 @@ namespace Pyros.Editor.Toolbar.Objects
         }
     }
 }
+#endif

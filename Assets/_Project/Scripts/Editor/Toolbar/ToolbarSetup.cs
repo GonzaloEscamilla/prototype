@@ -1,4 +1,6 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+
+using UnityEditor;
 using UnityEngine;
 using UnityToolbarExtender;
 
@@ -38,3 +40,4 @@ namespace Pyros.Editor.Toolbar
 
     }
 }
+#endif

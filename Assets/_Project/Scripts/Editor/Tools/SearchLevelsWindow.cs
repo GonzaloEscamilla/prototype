@@ -1,7 +1,10 @@
-﻿using UnityEditor;
-using UnityEditor.SceneManagement;
+﻿#if UNITY_EDITOR
+
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
+using UnityEditor.SceneManagement;
 
 namespace _Project.Scripts.Editor.Tools
 {
@@ -70,3 +73,4 @@ namespace _Project.Scripts.Editor.Tools
         }
     }
 }
+#endif

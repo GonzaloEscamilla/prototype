@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if  UNITY_EDITOR
+
+using System;
 using Pyros.Editor.Toolbar;
 using UnityEngine;
 
@@ -21,3 +23,4 @@ namespace Stumble.Editor.Toolbar.Objects
         }
     }
 }
+#endif

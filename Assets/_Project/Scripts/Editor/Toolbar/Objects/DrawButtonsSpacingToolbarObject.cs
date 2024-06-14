@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+using System;
 using Pyros.Editor.Toolbar;
 using UnityEngine;
 
@@ -17,3 +18,4 @@ namespace _Project.Scripts.Editor.Toolbar.Objects
         }
     }
 }
+#endif
