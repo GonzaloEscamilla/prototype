@@ -9,6 +9,8 @@ namespace _Project.Scripts.Core
         [Header("Movement Settings")]
         public float rotationFactorPerFrame;
         public float maxStableMoveSpeed;
+        public float maxStableMoveSpeedWhenAttacking;
+        public float attackImpulse;
         public int stableMovementSharpness;
         public float orientationSharpness;
         public bool orientTowardsGravity;

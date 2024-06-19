@@ -42,7 +42,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Shoot",
+                    "name": "Attack",
                     "type": "Button",
                     "id": "83f96083-d0d8-4728-a19a-2538311d2d74",
                     "expectedControlType": "Button",
@@ -51,7 +51,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SecondaryShoot",
+                    "name": "SecondaryAttack",
                     "type": "Button",
                     "id": "50883662-7789-427d-860e-19b0ab30145d",
                     "expectedControlType": "Button",
@@ -218,7 +218,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "ProController",
-                    "action": "Shoot",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -229,7 +229,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KBM",
-                    "action": "Shoot",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -284,7 +284,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "ProController",
-                    "action": "SecondaryShoot",
+                    "action": "SecondaryAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -295,7 +295,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KBM",
-                    "action": "SecondaryShoot",
+                    "action": "SecondaryAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -23,15 +23,23 @@ namespace _Project.Scripts.Core
     [RequireComponent(typeof(KinematicCharacterMotor))]
     public class CharacterMovementController : MonoBehaviour, ICharacterController
     {
-        [ShowInInspector] public bool IsDashing => _isDashing;
+        [SerializeField] 
+        private CharacterWeaponController weaponController;
+        
+        [SerializeField]
+        private CharacterSettings settings;
 
+        
+        [ShowInInspector] 
+        public bool IsDashing => _isDashing;
+    
         private KinematicCharacterMotor _motor;
-        private CharacterSettings _settings;
         private Camera _mainCamera;
         
         private Vector3 _moveInputVector;
         private Vector3 _lookInputVector;
         private Vector3 _lastVelocity;
+        private Vector3 _internalVelocityAdd = Vector3.zero;
         private bool _isRunning;
         private bool _isDashBuffered;
         private float _dashElapsedTime = 0;
@@ -43,11 +51,8 @@ namespace _Project.Scripts.Core
 
             _motor = GetComponent<KinematicCharacterMotor>();
             _motor.CharacterController = this;
-        }
 
-        public void SetData(CharacterSettings settings)
-        {
-            _settings = settings;
+            weaponController.AttackStarted += OnAttackStarted;
         }
         
         public void SetInputs(MoveInputData moveData)
@@ -64,7 +69,7 @@ namespace _Project.Scripts.Core
                 return;
             }
             
-            if (_lookInputVector != Vector3.zero && _settings.orientationSharpness > 0f)
+            if (_lookInputVector != Vector3.zero && settings.orientationSharpness > 0f)
             {
                 // Adjust the look input vector to be relative to the camera
                 Vector3 cameraForward = _mainCamera.transform.forward;
@@ -79,16 +84,16 @@ namespace _Project.Scripts.Core
                 Vector3 adjustedLookInput = cameraForward * _lookInputVector.z + cameraRight * _lookInputVector.x;
 
                 // Smoothly interpolate from current to target look direction
-                Vector3 smoothedLookInputDirection = Vector3.Slerp(_motor.CharacterForward, adjustedLookInput, 1 - Mathf.Exp(-_settings.orientationSharpness * deltaTime)).normalized;
+                Vector3 smoothedLookInputDirection = Vector3.Slerp(_motor.CharacterForward, adjustedLookInput, 1 - Mathf.Exp(-settings.orientationSharpness * deltaTime)).normalized;
 
                 // Set the current rotation (which will be used by the KinematicCharacterMotor)
                 currentRotation = Quaternion.LookRotation(smoothedLookInputDirection, _motor.CharacterUp);
             }
 
-            if (_settings.orientTowardsGravity)
+            if (settings.orientTowardsGravity)
             {
                 // Rotate from current up to invert gravity
-                currentRotation = Quaternion.FromToRotation((currentRotation * Vector3.up), -_settings.gravity) * currentRotation;
+                currentRotation = Quaternion.FromToRotation((currentRotation * Vector3.up), -settings.gravity) * currentRotation;
             }
         }
 
@@ -110,24 +115,24 @@ namespace _Project.Scripts.Core
             
             if (_motor.GroundingStatus.IsStableOnGround)
             {
-                targetMovementVelocity = adjustedMoveInput * _settings.maxStableMoveSpeed;
+                targetMovementVelocity = GetGroundVelocity(adjustedMoveInput);;
                 
                 if (_isDashing)
                 {
-                    targetMovementVelocity = _motor.CharacterForward * _settings.maxStableDashMoveSpeed;
-                    currentVelocity = Vector3.Lerp(currentVelocity, targetMovementVelocity, 1 - Mathf.Exp(-_settings.stableMovementSharpness * deltaTime));
+                    targetMovementVelocity = _motor.CharacterForward * settings.maxStableDashMoveSpeed;
+                    currentVelocity = Vector3.Lerp(currentVelocity, targetMovementVelocity, 1 - Mathf.Exp(-settings.stableMovementSharpness * deltaTime));
                     return;
                 }
                 
                 // Smooth movement Velocity
-                currentVelocity = Vector3.Lerp(currentVelocity, targetMovementVelocity, 1 - Mathf.Exp(-_settings.stableMovementSharpness * deltaTime));
+                currentVelocity = Vector3.Lerp(currentVelocity, targetMovementVelocity, 1 - Mathf.Exp(-settings.stableMovementSharpness * deltaTime));
             }
             else
             {
                 // Add move input
                 if (adjustedMoveInput.sqrMagnitude > 0f)
                 {
-                    targetMovementVelocity = adjustedMoveInput * _settings.maxAirMoveSpeed;
+                    targetMovementVelocity = adjustedMoveInput * settings.maxAirMoveSpeed;
 
                     // Prevent climbing on unstable slopes with air movement
                     if (_motor.GroundingStatus.FoundAnyGround)
@@ -136,18 +141,31 @@ namespace _Project.Scripts.Core
                         targetMovementVelocity = Vector3.ProjectOnPlane(targetMovementVelocity, perpenticularObstructionNormal);
                     }
 
-                    Vector3 velocityDiff = Vector3.ProjectOnPlane(targetMovementVelocity - currentVelocity, _settings.gravity);
-                    currentVelocity += velocityDiff * (_settings.airAccelerationSpeed * deltaTime);
+                    Vector3 velocityDiff = Vector3.ProjectOnPlane(targetMovementVelocity - currentVelocity, settings.gravity);
+                    currentVelocity += velocityDiff * (settings.airAccelerationSpeed * deltaTime);
                 }
 
                 // Gravity
-                currentVelocity += _settings.gravity * deltaTime;
+                currentVelocity += settings.gravity * deltaTime;
 
                 // Drag
-                currentVelocity *= (1f / (1f + (_settings.drag * deltaTime)));
+                currentVelocity *= (1f / (1f + (settings.drag * deltaTime)));
+            }
+            
+            // Take into account additive velocity
+            if (_internalVelocityAdd.sqrMagnitude > 0f)
+            {
+                currentVelocity += _internalVelocityAdd;
+                _internalVelocityAdd = Vector3.zero;
             }
         }
-        
+
+        private Vector3 GetGroundVelocity(Vector3 adjustedMoveInput)
+        {
+            var velocity = adjustedMoveInput * (weaponController.IsAttacking ? settings.maxStableMoveSpeedWhenAttacking : settings.maxStableMoveSpeed);
+            return velocity;
+        }
+
         public void Dash()
         {
             Debug.LogWarning("Dash");
@@ -156,7 +174,7 @@ namespace _Project.Scripts.Core
                 // if (settings.bufferedDashPercentage <= _dashElapsedTime / settings.dashDuration)
                 //     _isDashBuffered = true;
 
-                if (_settings.bufferedDashPercentage <= _dashElapsedTime / _settings.dashDuration)
+                if (settings.bufferedDashPercentage <= _dashElapsedTime / settings.dashDuration)
                 {
                     _isDashBuffered = true;
                 }
@@ -175,9 +193,9 @@ namespace _Project.Scripts.Core
            
             yield return null;
         
-            while (_dashElapsedTime <= _settings.dashDuration)
+            while (_dashElapsedTime <= settings.dashDuration)
             {
-                var dashPercentage = _dashElapsedTime / _settings.dashDuration;
+                var dashPercentage = _dashElapsedTime / settings.dashDuration;
                 // _isInvulnerable = false;
                 
                 // if (dashPercentage >= settings.dashInvulnerabilityRange.x && dashPercentage <= settings.dashInvulnerabilityRange.y)
@@ -201,6 +219,16 @@ namespace _Project.Scripts.Core
             _isDashBuffered = false;
         
             StartCoroutine(DashCoroutine());
+        }
+        
+        private void OnAttackStarted()
+        {
+            AddVelocity(_motor.CharacterForward * settings.attackImpulse);
+        }
+        
+        public void AddVelocity(Vector3 velocity)
+        {
+            _internalVelocityAdd += velocity;
         }
         
         public void BeforeCharacterUpdate(float deltaTime)

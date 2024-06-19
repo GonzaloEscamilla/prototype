@@ -64,7 +64,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Shoot"",
+                    ""name"": ""Attack"",
                     ""type"": ""Button"",
                     ""id"": ""83f96083-d0d8-4728-a19a-2538311d2d74"",
                     ""expectedControlType"": ""Button"",
@@ -73,7 +73,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""SecondaryShoot"",
+                    ""name"": ""SecondaryAttack"",
                     ""type"": ""Button"",
                     ""id"": ""50883662-7789-427d-860e-19b0ab30145d"",
                     ""expectedControlType"": ""Button"",
@@ -240,7 +240,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""ProController"",
-                    ""action"": ""Shoot"",
+                    ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -251,7 +251,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KBM"",
-                    ""action"": ""Shoot"",
+                    ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -306,7 +306,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""ProController"",
-                    ""action"": ""SecondaryShoot"",
+                    ""action"": ""SecondaryAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -317,7 +317,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KBM"",
-                    ""action"": ""SecondaryShoot"",
+                    ""action"": ""SecondaryAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -360,8 +360,8 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_CharacterControls_Run = m_CharacterControls.FindAction("Run", throwIfNotFound: true);
         m_CharacterControls_Aim = m_CharacterControls.FindAction("Aim", throwIfNotFound: true);
         m_CharacterControls_Dash = m_CharacterControls.FindAction("Dash", throwIfNotFound: true);
-        m_CharacterControls_Shoot = m_CharacterControls.FindAction("Shoot", throwIfNotFound: true);
-        m_CharacterControls_SecondaryShoot = m_CharacterControls.FindAction("SecondaryShoot", throwIfNotFound: true);
+        m_CharacterControls_Attack = m_CharacterControls.FindAction("Attack", throwIfNotFound: true);
+        m_CharacterControls_SecondaryAttack = m_CharacterControls.FindAction("SecondaryAttack", throwIfNotFound: true);
         m_CharacterControls_Action = m_CharacterControls.FindAction("Action", throwIfNotFound: true);
         m_CharacterControls_UseUtility = m_CharacterControls.FindAction("UseUtility", throwIfNotFound: true);
     }
@@ -429,8 +429,8 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_CharacterControls_Run;
     private readonly InputAction m_CharacterControls_Aim;
     private readonly InputAction m_CharacterControls_Dash;
-    private readonly InputAction m_CharacterControls_Shoot;
-    private readonly InputAction m_CharacterControls_SecondaryShoot;
+    private readonly InputAction m_CharacterControls_Attack;
+    private readonly InputAction m_CharacterControls_SecondaryAttack;
     private readonly InputAction m_CharacterControls_Action;
     private readonly InputAction m_CharacterControls_UseUtility;
     public struct CharacterControlsActions
@@ -441,8 +441,8 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         public InputAction @Run => m_Wrapper.m_CharacterControls_Run;
         public InputAction @Aim => m_Wrapper.m_CharacterControls_Aim;
         public InputAction @Dash => m_Wrapper.m_CharacterControls_Dash;
-        public InputAction @Shoot => m_Wrapper.m_CharacterControls_Shoot;
-        public InputAction @SecondaryShoot => m_Wrapper.m_CharacterControls_SecondaryShoot;
+        public InputAction @Attack => m_Wrapper.m_CharacterControls_Attack;
+        public InputAction @SecondaryAttack => m_Wrapper.m_CharacterControls_SecondaryAttack;
         public InputAction @Action => m_Wrapper.m_CharacterControls_Action;
         public InputAction @UseUtility => m_Wrapper.m_CharacterControls_UseUtility;
         public InputActionMap Get() { return m_Wrapper.m_CharacterControls; }
@@ -466,12 +466,12 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
-            @Shoot.started += instance.OnShoot;
-            @Shoot.performed += instance.OnShoot;
-            @Shoot.canceled += instance.OnShoot;
-            @SecondaryShoot.started += instance.OnSecondaryShoot;
-            @SecondaryShoot.performed += instance.OnSecondaryShoot;
-            @SecondaryShoot.canceled += instance.OnSecondaryShoot;
+            @Attack.started += instance.OnAttack;
+            @Attack.performed += instance.OnAttack;
+            @Attack.canceled += instance.OnAttack;
+            @SecondaryAttack.started += instance.OnSecondaryAttack;
+            @SecondaryAttack.performed += instance.OnSecondaryAttack;
+            @SecondaryAttack.canceled += instance.OnSecondaryAttack;
             @Action.started += instance.OnAction;
             @Action.performed += instance.OnAction;
             @Action.canceled += instance.OnAction;
@@ -494,12 +494,12 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
-            @Shoot.started -= instance.OnShoot;
-            @Shoot.performed -= instance.OnShoot;
-            @Shoot.canceled -= instance.OnShoot;
-            @SecondaryShoot.started -= instance.OnSecondaryShoot;
-            @SecondaryShoot.performed -= instance.OnSecondaryShoot;
-            @SecondaryShoot.canceled -= instance.OnSecondaryShoot;
+            @Attack.started -= instance.OnAttack;
+            @Attack.performed -= instance.OnAttack;
+            @Attack.canceled -= instance.OnAttack;
+            @SecondaryAttack.started -= instance.OnSecondaryAttack;
+            @SecondaryAttack.performed -= instance.OnSecondaryAttack;
+            @SecondaryAttack.canceled -= instance.OnSecondaryAttack;
             @Action.started -= instance.OnAction;
             @Action.performed -= instance.OnAction;
             @Action.canceled -= instance.OnAction;
@@ -547,8 +547,8 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         void OnRun(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
-        void OnShoot(InputAction.CallbackContext context);
-        void OnSecondaryShoot(InputAction.CallbackContext context);
+        void OnAttack(InputAction.CallbackContext context);
+        void OnSecondaryAttack(InputAction.CallbackContext context);
         void OnAction(InputAction.CallbackContext context);
         void OnUseUtility(InputAction.CallbackContext context);
     }

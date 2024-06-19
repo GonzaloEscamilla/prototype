@@ -1,8 +1,9 @@
-using System.Collections;
-using _Project.Scripts.Utilities;
-using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
+
+using Sirenix.OdinInspector;
+
+using _Project.Scripts.Utilities;
 
 namespace _Project.Scripts.Core
 {
@@ -13,6 +14,7 @@ namespace _Project.Scripts.Core
         [SerializeField] private CharacterMovementController movementController;
         [SerializeField] private DetectorSettings interactablesDetectorSettings;
         [SerializeField] private Transform interactablesDetectorCenter;
+        [SerializeField] private CharacterWeaponController weaponController;
         
         private float _speedAdditionalEffectsMultiplier;
         public float SpeedAdditionalEffectsMultiplier
@@ -48,11 +50,12 @@ namespace _Project.Scripts.Core
         private void Awake()
         {
             _camera = Camera.main;
-            
+
             _playerInputs = new PlayerInputs();
             _playerInputs.Enable();
-            
-            movementController.SetData(settings);
+
+            _isInputEnable = true;
+            SpeedAdditionalEffectsMultiplier = 1;
             
             _playerInputs.CharacterControls.Move.started += HandleMovementByInput;
             _playerInputs.CharacterControls.Move.canceled += HandleMovementByInput;
@@ -65,11 +68,9 @@ namespace _Project.Scripts.Core
 
             _playerInputs.CharacterControls.Action.started += HandleInteraction;
             _playerInputs.CharacterControls.Action.canceled += HandleInteraction;
+
+            _playerInputs.CharacterControls.Attack.started += AttackStarted;
             
-            _isInputEnable = true;
-
-            SpeedAdditionalEffectsMultiplier = 1;
-
             _interactablesDetector = new Detector<BaseInteractable>(interactablesDetectorCenter, interactablesDetectorSettings);
             _interactablesDetector.OnTargetDetected += InteractableTargetDetected;
             _interactablesDetector.OnTargetLost += InteractableTargetLost;
@@ -116,6 +117,9 @@ namespace _Project.Scripts.Core
         
         private void Dash(InputAction.CallbackContext obj)
         {
+            if (!_isInputEnable && !weaponController.IsAttacking)
+                return;
+            
             movementController.Dash();
         }
     
@@ -135,6 +139,14 @@ namespace _Project.Scripts.Core
         private void HandleInteraction(InputAction.CallbackContext context)
         {
             _isInteractionPressed = context.ReadValueAsButton();
+        }
+        
+        private void AttackStarted(InputAction.CallbackContext context)
+        {
+            if (!_isInputEnable)
+                return;
+            
+            weaponController.Attack();
         }
         
         private void TryToInteract()
