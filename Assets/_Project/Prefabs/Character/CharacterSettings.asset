@@ -13,15 +13,22 @@ MonoBehaviour:
   m_Name: CharacterSettings
   m_EditorClassIdentifier: 
   rotationFactorPerFrame: 1500
-  speed: 5
+  maxStableMoveSpeed: 6
+  stableMovementSharpness: 15
+  orientationSharpness: 16
+  orientTowardsGravity: 1
+  gravity: {x: 0, y: -30, z: 0}
   runMultiplier: 1.6
   runEnergyCost: 1
+  maxAirMoveSpeed: 0
+  airAccelerationSpeed: 0
+  drag: 0
   usesDashPoints: 0
   dashPoints: 0
   dashEnergyCost: 1
   dashDuration: 0.15
-  dashSpeed: 22
-  dashDistance: 3.3000002
+  maxStableDashMoveSpeed: 30
+  dashDistance: 4.5
   dashCooldown: 0.5
   bufferedDashPercentage: 0.7
   dashInvulnerabilityRange: {x: 0, y: 1}

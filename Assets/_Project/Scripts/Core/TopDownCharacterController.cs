@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using _Project.Scripts.Utilities;
 using Sirenix.OdinInspector;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -54,11 +55,13 @@ namespace _Project.Scripts.Core
 
         private void Awake()
         {
+            _camera = Camera.main;
+            
             _playerInputs = new PlayerInputs();
 
             _playerInputs.CharacterControls.Move.started += HandleMovementByInput;
-            _playerInputs.CharacterControls.Move.canceled += HandleMovementByInput;
             _playerInputs.CharacterControls.Move.performed += HandleMovementByInput;
+            _playerInputs.CharacterControls.Move.canceled += HandleMovementByInput;
         
             _playerInputs.CharacterControls.Run.started += HandleRun;
             _playerInputs.CharacterControls.Run.canceled += HandleRun;
@@ -68,8 +71,6 @@ namespace _Project.Scripts.Core
             _playerInputs.CharacterControls.Action.started += HandleInteraction;
             _playerInputs.CharacterControls.Action.canceled += HandleInteraction;
             
-            _camera = Camera.main;
-        
             _isInputEnable = true;
 
             SpeedAdditionalEffectsMultiplier = 1;
@@ -78,7 +79,7 @@ namespace _Project.Scripts.Core
             _interactablesDetector.OnTargetDetected += InteractableTargetDetected;
             _interactablesDetector.OnTargetLost += InteractableTargetLost;
         }
-        
+
         private void OnEnable()
         {
             _playerInputs.Enable();
@@ -106,11 +107,11 @@ namespace _Project.Scripts.Core
             
             if (_isRunPressed)
             {
-                characterController.Move(movement * (settings.speed * settings.runMultiplier * SpeedAdditionalEffectsMultiplier * Time.deltaTime));
+                characterController.Move(movement * (settings.maxStableMoveSpeed * settings.runMultiplier * SpeedAdditionalEffectsMultiplier * Time.deltaTime));
                 return;
             }
             
-            characterController.Move(movement * (settings.speed * SpeedAdditionalEffectsMultiplier * Time.deltaTime));
+            characterController.Move(movement * (settings.maxStableMoveSpeed * SpeedAdditionalEffectsMultiplier * Time.deltaTime));
         }
 
         public void OnDeviceChange(PlayerInput playerInput)
@@ -131,11 +132,17 @@ namespace _Project.Scripts.Core
         }
         private void HandleRun(InputAction.CallbackContext context)
         {
+            if (!_isInputEnable)
+                return;
+            
             _isRunPressed = context.ReadValueAsButton();
         }
         
         private void HandleRotationByInput()
         {
+            if (!_isInputEnable)
+                return;
+            
             _aim = _playerInputs.CharacterControls.Aim.ReadValue<Vector2>();
         
             if (_isGamepad)
@@ -179,6 +186,9 @@ namespace _Project.Scripts.Core
         
         private void Dash(InputAction.CallbackContext obj)
         {
+            if (!_isInputEnable)
+                return;
+            
             if (_isDashing)
             {
                 if (settings.bufferedDashPercentage <= _dashElapsedTime / settings.dashDuration)
@@ -212,7 +222,7 @@ namespace _Project.Scripts.Core
                     _isInvulnerable = true;
                 }
                 
-                characterController.Move(movementVector * (settings.dashSpeed  * Time.deltaTime));
+                characterController.Move(movementVector * (settings.maxStableDashMoveSpeed  * Time.deltaTime));
                 _dashElapsedTime += Time.deltaTime;
                 yield return null;
             }
@@ -244,6 +254,9 @@ namespace _Project.Scripts.Core
         
         private void HandleInteraction(InputAction.CallbackContext context)
         {
+            if (!_isInputEnable)
+                return;
+            
             _isInteractionPressed = context.ReadValueAsButton();
         }
         

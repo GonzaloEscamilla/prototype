@@ -1,3 +1,4 @@
+using System.Collections;
 using _Project.Scripts.Utilities.Math;
 using KinematicCharacterController;
 using Sirenix.OdinInspector;
@@ -9,54 +10,61 @@ namespace _Project.Scripts.Core
     {
         public Vector2 MoveInputVector;
         public Vector2 LookInputVector;
+        public bool RunInputPressed;
         
-        public MoveInputData(Vector2 moveInputVector, Vector2 lookInputVector)
+        public MoveInputData(Vector2 moveInputVector, Vector2 lookInputVector, bool runInputPressed)
         {
             MoveInputVector = moveInputVector;
             LookInputVector = lookInputVector;
+            RunInputPressed = runInputPressed;
         }
     }
     
+    [RequireComponent(typeof(KinematicCharacterMotor))]
     public class CharacterMovementController : MonoBehaviour, ICharacterController
     {
-        public KinematicCharacterMotor Motor;
+        [ShowInInspector] public bool IsDashing => _isDashing;
 
-        [Header("Stable Movement")]
-        public float MaxStableMoveSpeed = 10f;
-        public float StableMovementSharpness = 15;
-        public float OrientationSharpness = 10;
-
-        [Header("Air Movement")]
-        public float MaxAirMoveSpeed = 10f;
-        public float AirAccelerationSpeed = 5f;
-        public float Drag = 0.1f;
-
-        [Header("Misc")]
-        public bool RotationObstruction;
-        public Vector3 Gravity = new Vector3(0, -30f, 0);
-        public Transform MeshRoot;
-        public bool OrientTowardsGravity;
-
-        [Sirenix.OdinInspector.ReadOnly] public Vector3 _moveInputVector;
-        [Sirenix.OdinInspector.ReadOnly] public Vector3 _lookInputVector;
-
+        private KinematicCharacterMotor _motor;
+        private CharacterSettings _settings;
         private Camera _mainCamera;
         
+        private Vector3 _moveInputVector;
+        private Vector3 _lookInputVector;
+        private Vector3 _lastVelocity;
+        private bool _isRunning;
+        private bool _isDashBuffered;
+        private float _dashElapsedTime = 0;
+        private bool _isDashing;
+
         private void Awake()
         {
-            Motor.CharacterController = this;
             _mainCamera = Camera.main;
+
+            _motor = GetComponent<KinematicCharacterMotor>();
+            _motor.CharacterController = this;
         }
 
+        public void SetData(CharacterSettings settings)
+        {
+            _settings = settings;
+        }
+        
         public void SetInputs(MoveInputData moveData)
         {
             _moveInputVector = moveData.MoveInputVector.XZ().normalized;
             _lookInputVector = moveData.LookInputVector.XZ().normalized;
+            _isRunning = moveData.RunInputPressed;
         }
         
         public void UpdateRotation(ref Quaternion currentRotation, float deltaTime)
         {
-            if (_lookInputVector != Vector3.zero && OrientationSharpness > 0f)
+            if (_isDashing)
+            {
+                return;
+            }
+            
+            if (_lookInputVector != Vector3.zero && _settings.orientationSharpness > 0f)
             {
                 // Adjust the look input vector to be relative to the camera
                 Vector3 cameraForward = _mainCamera.transform.forward;
@@ -71,16 +79,16 @@ namespace _Project.Scripts.Core
                 Vector3 adjustedLookInput = cameraForward * _lookInputVector.z + cameraRight * _lookInputVector.x;
 
                 // Smoothly interpolate from current to target look direction
-                Vector3 smoothedLookInputDirection = Vector3.Slerp(Motor.CharacterForward, adjustedLookInput, 1 - Mathf.Exp(-OrientationSharpness * deltaTime)).normalized;
+                Vector3 smoothedLookInputDirection = Vector3.Slerp(_motor.CharacterForward, adjustedLookInput, 1 - Mathf.Exp(-_settings.orientationSharpness * deltaTime)).normalized;
 
                 // Set the current rotation (which will be used by the KinematicCharacterMotor)
-                currentRotation = Quaternion.LookRotation(smoothedLookInputDirection, Motor.CharacterUp);
+                currentRotation = Quaternion.LookRotation(smoothedLookInputDirection, _motor.CharacterUp);
             }
 
-            if (OrientTowardsGravity)
+            if (_settings.orientTowardsGravity)
             {
                 // Rotate from current up to invert gravity
-                currentRotation = Quaternion.FromToRotation((currentRotation * Vector3.up), -Gravity) * currentRotation;
+                currentRotation = Quaternion.FromToRotation((currentRotation * Vector3.up), -_settings.gravity) * currentRotation;
             }
         }
 
@@ -99,41 +107,102 @@ namespace _Project.Scripts.Core
             cameraRight.Normalize();
 
             Vector3 adjustedMoveInput = cameraForward * _moveInputVector.z + cameraRight * _moveInputVector.x;
-
-            if (Motor.GroundingStatus.IsStableOnGround)
+            
+            if (_motor.GroundingStatus.IsStableOnGround)
             {
-                targetMovementVelocity = adjustedMoveInput * MaxStableMoveSpeed;
-
+                targetMovementVelocity = adjustedMoveInput * _settings.maxStableMoveSpeed;
+                
+                if (_isDashing)
+                {
+                    targetMovementVelocity = _motor.CharacterForward * _settings.maxStableDashMoveSpeed;
+                    currentVelocity = Vector3.Lerp(currentVelocity, targetMovementVelocity, 1 - Mathf.Exp(-_settings.stableMovementSharpness * deltaTime));
+                    return;
+                }
+                
                 // Smooth movement Velocity
-                currentVelocity = Vector3.Lerp(currentVelocity, targetMovementVelocity, 1 - Mathf.Exp(-StableMovementSharpness * deltaTime));
+                currentVelocity = Vector3.Lerp(currentVelocity, targetMovementVelocity, 1 - Mathf.Exp(-_settings.stableMovementSharpness * deltaTime));
             }
             else
             {
                 // Add move input
                 if (adjustedMoveInput.sqrMagnitude > 0f)
                 {
-                    targetMovementVelocity = adjustedMoveInput * MaxAirMoveSpeed;
+                    targetMovementVelocity = adjustedMoveInput * _settings.maxAirMoveSpeed;
 
                     // Prevent climbing on unstable slopes with air movement
-                    if (Motor.GroundingStatus.FoundAnyGround)
+                    if (_motor.GroundingStatus.FoundAnyGround)
                     {
-                        Vector3 perpenticularObstructionNormal = Vector3.Cross(Vector3.Cross(Motor.CharacterUp, Motor.GroundingStatus.GroundNormal), Motor.CharacterUp).normalized;
+                        Vector3 perpenticularObstructionNormal = Vector3.Cross(Vector3.Cross(_motor.CharacterUp, _motor.GroundingStatus.GroundNormal), _motor.CharacterUp).normalized;
                         targetMovementVelocity = Vector3.ProjectOnPlane(targetMovementVelocity, perpenticularObstructionNormal);
                     }
 
-                    Vector3 velocityDiff = Vector3.ProjectOnPlane(targetMovementVelocity - currentVelocity, Gravity);
-                    currentVelocity += velocityDiff * (AirAccelerationSpeed * deltaTime);
+                    Vector3 velocityDiff = Vector3.ProjectOnPlane(targetMovementVelocity - currentVelocity, _settings.gravity);
+                    currentVelocity += velocityDiff * (_settings.airAccelerationSpeed * deltaTime);
                 }
 
                 // Gravity
-                currentVelocity += Gravity * deltaTime;
+                currentVelocity += _settings.gravity * deltaTime;
 
                 // Drag
-                currentVelocity *= (1f / (1f + (Drag * deltaTime)));
+                currentVelocity *= (1f / (1f + (_settings.drag * deltaTime)));
             }
         }
+        
+        public void Dash()
+        {
+            Debug.LogWarning("Dash");
+            if (_isDashing)
+            {
+                // if (settings.bufferedDashPercentage <= _dashElapsedTime / settings.dashDuration)
+                //     _isDashBuffered = true;
 
+                if (_settings.bufferedDashPercentage <= _dashElapsedTime / _settings.dashDuration)
+                {
+                    _isDashBuffered = true;
+                }
+                return;
+            }
+        
+            _isDashing = true;
+            StartCoroutine(DashCoroutine());
+        }
+    
+        private IEnumerator DashCoroutine()
+        {
+            // characterController.detectCollisions = false;
 
+            _dashElapsedTime = 0;
+           
+            yield return null;
+        
+            while (_dashElapsedTime <= _settings.dashDuration)
+            {
+                var dashPercentage = _dashElapsedTime / _settings.dashDuration;
+                // _isInvulnerable = false;
+                
+                // if (dashPercentage >= settings.dashInvulnerabilityRange.x && dashPercentage <= settings.dashInvulnerabilityRange.y)
+                // {
+                //     _isInvulnerable = true;
+                // }
+                
+                Debug.LogWarning("Is Dashing");
+                _dashElapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            _isDashing = false;
+            // characterController.detectCollisions = true;
+            // _isInvulnerable = false;
+
+            if (!_isDashBuffered) 
+                yield break;
+        
+            _isDashing = true;
+            _isDashBuffered = false;
+        
+            StartCoroutine(DashCoroutine());
+        }
+        
         public void BeforeCharacterUpdate(float deltaTime)
         {
         }
