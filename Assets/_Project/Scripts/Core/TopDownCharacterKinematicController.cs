@@ -35,6 +35,7 @@ namespace _Project.Scripts.Core
         private PlayerInputs _playerInputs;
         private Detector<BaseInteractable> _interactablesDetector;
         private BaseInteractable _currentInteractableTarget;
+        private Scrap _currentScrapTarget;
 
         private Vector2 _movementInput;
         private Vector3 _characterFacingDirection;
@@ -125,15 +126,18 @@ namespace _Project.Scripts.Core
     
         private void InteractableTargetDetected(BaseInteractable interactable)
         {
+            CheckScrap(interactable);
+
             _currentInteractableTarget = interactable;
         }
-        
+
         private void InteractableTargetLost(BaseInteractable interactableLost)
         {
             if (interactableLost != _currentInteractableTarget)
                 return;
             
             _currentInteractableTarget = null;
+            _currentScrapTarget = null;
         }
         
         private void HandleInteraction(InputAction.CallbackContext context)
@@ -151,10 +155,39 @@ namespace _Project.Scripts.Core
         
         private void TryToInteract()
         {
-            if (!_isInteractionPressed)
+            if (!_isInteractionPressed || !_currentInteractableTarget)
                 return;
+
+            if (_currentScrapTarget)
+            {
+                HandleGrabScrap();
+                return;
+            }
             
-            _currentInteractableTarget?.Interact(gameObject);
+            _currentInteractableTarget.Interact(gameObject, out var resultData);
+        }
+
+        private void HandleGrabScrap()
+        {
+            if (!_currentInteractableTarget.Interact(gameObject, out var resultData))
+            {
+                return;
+            }
+
+            var scrapData = (ScrapData)resultData;
+            
+            Debug.Log($"You Grabbed {scrapData.Rarity} scrap");
+        }
+
+        private void CheckScrap(BaseInteractable interactable)
+        {
+            if (interactable is not Scrap scrap)
+            {
+                _currentScrapTarget = null;
+                return;
+            }
+            
+            _currentScrapTarget = scrap;
         }
     }
 }

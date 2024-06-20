@@ -262,10 +262,10 @@ namespace _Project.Scripts.Core
         
         private void TryToInteract()
         {
-            if (!_isInteractionPressed)
+            if (!_isInteractionPressed || !_currentInteractableTarget)
                 return;
             
-            _currentInteractableTarget?.Interact(gameObject);
+            _currentInteractableTarget.Interact(gameObject, out var interactionResultData);
         }
         
         private Vector3 GetCameraAffectedMovement()

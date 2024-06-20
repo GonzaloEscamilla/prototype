@@ -56,13 +56,15 @@ namespace _Project.Scripts.Core
             usesAmount = 0;
         }
 
-        public override void Interact(GameObject interactionSource)
+        public override bool Interact(GameObject interactionSource, out object interactionResultData)
         {
+            interactionResultData = null;
+            
             if (!IsInteractable || _completed)
-                return;
+                return false;
 
             if (singleUse && usesAmount > 0)
-                return;
+                return false;
 
             CurrentFillAmount += Time.deltaTime;
 
@@ -71,12 +73,16 @@ namespace _Project.Scripts.Core
                 OnCompleted?.Invoke();
                 usesAmount++;
                 _completed = true;
+                
+                return true;
             }
 
             fillPercentage = CurrentFillAmount / secondsToFill;
             
             InteractionPerformed?.Invoke(fillPercentage);
             Debug.Log($"Interacted by {interactionSource}, Percentage: {fillPercentage}", interactionSource);
+
+            return false;
         }
     }
 }

@@ -35,21 +35,24 @@ namespace _Project.Scripts.Core
             _usesAmount = 0;
         }
 
-        public override void Interact(GameObject interactionSource)
+        public override bool Interact(GameObject interactionSource, out object interactionResultData)
         {
+            interactionResultData = null;
+            
             if (!IsEnable || _isCoolingDown)
-                return;
+                return false;
 
             if (singleUse && _usesAmount > 0)
-                return;
+                return false;
 
             _usesAmount++;
 
             OnInteract?.Invoke();
             StartCoroutine(Cooldown());
             Debug.Log($"Interacted by {interactionSource}", interactionSource);
+            
+            return true;
         }
-
         private IEnumerator Cooldown()
         {
             _isCoolingDown = true;

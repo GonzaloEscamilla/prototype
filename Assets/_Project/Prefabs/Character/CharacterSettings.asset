@@ -15,6 +15,7 @@ MonoBehaviour:
   rotationFactorPerFrame: 1500
   maxStableMoveSpeed: 6
   maxStableMoveSpeedWhenAttacking: 2
+  attackImpulse: 10
   stableMovementSharpness: 15
   orientationSharpness: 16
   orientTowardsGravity: 1

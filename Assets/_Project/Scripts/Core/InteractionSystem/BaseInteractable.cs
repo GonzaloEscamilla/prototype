@@ -4,6 +4,6 @@ namespace _Project.Scripts.Core
 {
     public abstract class BaseInteractable : MonoBehaviour
     {
-        public abstract void Interact(GameObject interactionSource);
+        public abstract bool Interact(GameObject interactionSource, out object interactionResultData);
     }
 }
