@@ -462,6 +462,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bff2e76743bf344aba7f96470fb5274, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  graphicsRoot: {fileID: 2972339723343839056}
   rarity: 1
   scrapType: 0
   secondsToFill: 3

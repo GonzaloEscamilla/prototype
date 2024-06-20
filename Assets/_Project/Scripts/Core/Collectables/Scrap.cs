@@ -39,6 +39,9 @@ public struct ScrapData
 public class Scrap : BaseInteractable
 {
     [SerializeField] 
+    private GameObject graphicsRoot;
+    
+    [SerializeField] 
     private ScrapRarity rarity;
 
     [SerializeField] 
@@ -93,6 +96,18 @@ public class Scrap : BaseInteractable
         };
 
         canvasGroup.alpha = 0;
+
+        switch (scrapType)
+        {
+            case ScrapType.Hidden:
+                _currentState = ScrapState.Hidden;
+                graphicsRoot.SetActive(false);
+                break;
+            case ScrapType.Normal:
+                _currentState = ScrapState.Revealed;
+                graphicsRoot.SetActive(true);
+                break;
+        }
     }
 
     public override bool Interact(GameObject interactionSource, out object interactionResultData)
@@ -121,5 +136,43 @@ public class Scrap : BaseInteractable
         }
         
         return false;
+    }
+
+    [ContextMenu("Detect")]
+    public void Detect()
+    {
+        switch (scrapType)
+        {
+            case ScrapType.Normal:
+                HandleDetectForNormal();
+                break;
+            case ScrapType.Hidden:
+                HandleDetectForHidden();
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    private void HandleDetectForHidden()
+    {
+        if (_currentState == ScrapState.Grabbed)
+        {
+            return;
+        }
+
+        _currentState = ScrapState.Revealed;
+        graphicsRoot.SetActive(true);
+    }
+
+    private void HandleDetectForNormal()
+    {
+        if (_currentState == ScrapState.Grabbed)
+        {
+            return;
+        }
+
+        _currentState = ScrapState.Revealed;
+        graphicsRoot.SetActive(true);
     }
 }
