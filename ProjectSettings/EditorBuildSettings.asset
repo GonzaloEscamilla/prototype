@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/_Project/Scenes/BaseCharacterScene.unity
+    guid: ff5e57634acad804b90c9f210f0dc764
+  - enabled: 1
     path: Assets/_Project/Scenes/IsometricTopDownKinematicTest.unity
     guid: 7060b035e727f2a4e8511324ece7f7ea
   - enabled: 1
