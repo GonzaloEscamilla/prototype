@@ -47,7 +47,7 @@ namespace _Project.Scripts.Utilities
         {
             return detectedComponents;
         }
-
+        
         public static void DetectColliders(Vector3 center, float radius, out Collider[] hits, LayerMask detectionLayer)
         {
             Collider[] colliders = new Collider[10];
@@ -60,6 +60,27 @@ namespace _Project.Scripts.Utilities
             }
         }
 
+        public List<T> Detect(float range)
+        {
+            detectedComponents = new();
+            
+            int collidersAmount = Physics.OverlapSphereNonAlloc(center.position, range, allocatedColliders, detectionMask);
+            
+            for (int i = 0; i < collidersAmount; i++)
+            {
+                var component = allocatedColliders[i].GetComponent<T>();
+                if (component != null)
+                {
+                    if (!detectedComponents.Contains(component))
+                    {
+                        detectedComponents.Add(component);
+                    }
+                }
+            }
+
+            return detectedComponents;
+        }
+        
         public void SortByDistance(List<T> currentColl)
         {
             if (currentColl.Count > 0)

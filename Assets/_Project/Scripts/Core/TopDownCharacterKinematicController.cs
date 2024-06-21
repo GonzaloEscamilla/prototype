@@ -15,6 +15,7 @@ namespace _Project.Scripts.Core
         [SerializeField] private DetectorSettings interactablesDetectorSettings;
         [SerializeField] private Transform interactablesDetectorCenter;
         [SerializeField] private CharacterWeaponController weaponController;
+        [SerializeField] private RadarController radarController;
         
         private float _speedAdditionalEffectsMultiplier;
         public float SpeedAdditionalEffectsMultiplier
@@ -43,6 +44,7 @@ namespace _Project.Scripts.Core
     
         private bool _isRunPressed;
         private bool _isInteractionPressed;
+        private bool _isRadarPressed;
         
         private bool _isInvulnerable;
 
@@ -71,6 +73,9 @@ namespace _Project.Scripts.Core
             _playerInputs.CharacterControls.Action.canceled += HandleInteraction;
 
             _playerInputs.CharacterControls.Attack.started += AttackStarted;
+
+            _playerInputs.CharacterControls.UseUtility.started += RadarStarted;
+            _playerInputs.CharacterControls.UseUtility.canceled += RadarCanceled;
             
             _interactablesDetector = new Detector<BaseInteractable>(interactablesDetectorCenter, interactablesDetectorSettings);
             _interactablesDetector.OnTargetDetected += InteractableTargetDetected;
@@ -89,6 +94,7 @@ namespace _Project.Scripts.Core
             
             _interactablesDetector.Update();
             TryToInteract();
+            TryChargeRadar();
             
             var moveData = new MoveInputData(
                 _movementInput,
@@ -98,7 +104,7 @@ namespace _Project.Scripts.Core
 
             movementController.SetInputs(moveData);
         }
-
+        
         public void OnDeviceChange(PlayerInput playerInput)
         {
             _isGamepad = playerInput.currentControlScheme.Equals("ProController") ? true : false;
@@ -188,6 +194,26 @@ namespace _Project.Scripts.Core
             }
             
             _currentScrapTarget = scrap;
+        }
+        
+        private void RadarStarted(InputAction.CallbackContext context)
+        {
+            _isRadarPressed = true;
+            radarController.BeginCharge();
+        }
+        
+        private void RadarCanceled(InputAction.CallbackContext context)
+        {
+            _isRadarPressed = false;
+            radarController.EndCharge();
+        }
+        
+        private void TryChargeRadar()
+        {
+            if (!_isInputEnable || !_isRadarPressed)
+                return;
+            
+            radarController.Charge();
         }
     }
 }
