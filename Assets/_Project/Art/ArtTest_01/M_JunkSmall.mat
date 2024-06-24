@@ -81,6 +81,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_e87ba1e6c6d64e17a9b091447d3cb57f_Out_0_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -97,6 +101,7 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _AlphaToMask: 0
+    - _AmbientEnvironmentMultiplier: 0.2
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
@@ -108,12 +113,18 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
+    - _EdgeDiffuse: 0.6
+    - _EdgeDistanceAttenuation: 1.5
+    - _EdgeRim: 1
+    - _EdgeShadowAttenuation: 1.5
+    - _EdgeSpecular: 0.6
     - _EdgeWear: 10
     - _EnvironmentReflections: 1
     - _Float: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _HasCelShading: 1
     - _HueMultiply: 150
     - _Metallic: 0.8
     - _NoiseEdgeScale: 20
@@ -124,6 +135,9 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _RimAmount: 0.25
+    - _RimStrength: 1
+    - _RimThreshold: 0.15
     - _Smoothness: 0.2
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -135,6 +149,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _AOColor: {r: 0.16037738, g: 0.12633501, b: 0.12633501, a: 0}
+    - _AmbientColor: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color_B: {r: 0.31132078, g: 0.2569865, b: 0.31132078, a: 1}
